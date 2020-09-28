@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "workzy"
+version = "0.1.0"
+description = "Manage workspaces easily throughout CLI"
+license = "MIT"
+homepage = "https://github.com/renantamashiro/workzy"
+repository = "https://github.com/renantamashiro/workzy"
+authors = ["renantamashiro <tamashirorenan@gmail.com>"]
+keywords = ["workspaces"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "^7.1.2"
+
+[tool.poetry.scripts]
+workzy = "workzy.application:main"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pylint = "^2.6.0"
+coverage = {extras = ["toml"], version = "^5.3"}
+pytest-cov = "^2.10.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["workzy"]
+
+[tool.coverage.report]
+show_missing = true
