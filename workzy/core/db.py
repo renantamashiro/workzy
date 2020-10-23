@@ -1,5 +1,7 @@
 import sqlite3
 
+# Persistence and Decorator examples
+
 
 def connect_with_db(func):
     def inner_function(*args, **kwargs):

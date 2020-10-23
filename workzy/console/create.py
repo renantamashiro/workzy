@@ -5,12 +5,16 @@ from workzy.core.workspace import Workspace
 
 @click.command()
 @click.argument("workspace_name")
-def create(workspace_name):
-    workspace = Workspace(workspace_name)
+def create(workspace_name: str) -> None:
+    """Create a new workspace with interaction.
 
+    :param workspace_name: the workspace's name created.
+    :type workspace_name: str.
+    """
+    workspace = Workspace(workspace_name)
     try:
         while True:
-            command = input(f"Enter command to run with {workspace.name}")
+            command = input(f"Enter command to run with {workspace.name}: ")
             workspace.append(command)
             print(f"{command} saved! Ctrl+C to close\n")
     except KeyboardInterrupt:
@@ -24,6 +28,7 @@ def create(workspace_name):
 
 
 def create_file(workspace):
+    """Deprecated... db it's necessary."""
     try:
         with open(".jobs", "a") as file:
             string = ",".join(workspace.jobs)

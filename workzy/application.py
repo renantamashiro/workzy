@@ -1,5 +1,6 @@
 from workzy.console.cli import console
 
 
-def main():
+def main() -> None:
+    """Runs the workzy's cli."""
     console()

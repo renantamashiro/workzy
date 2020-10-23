@@ -6,8 +6,8 @@ class Workspace:
     simultaneuosly. Each job it is a Thread that runs when
     the user call the workspace's name.
 
-    :param name: A name for this workspace that will call by the user
-    :type name: str
+    :param name: A name for this workspace that will call by the user.
+    :type name: str.
     """
 
     def __init__(self, name):
@@ -18,16 +18,16 @@ class Workspace:
     def name(self) -> str:
         """Getter method that returns the name of the Workspace.
 
-        :return: The name of the Workspace
-        :rtype: str
+        :return: The name of the Workspace.
+        :rtype: str.
         """
         return self._name
 
     @name.setter
     def name(self, name) -> None:
-        """Setter method for name attribute
+        """Setter method for name attribute.
 
-        :param name: The name for this Workspace
+        :param name: The name for this Workspace.
         """
         self._name = name
 
@@ -35,26 +35,39 @@ class Workspace:
     def jobs(self) -> list:
         """Getter method that returns all jobs associated with this Workspace.
 
-        :return: A `list` that refers a process associated with this Workspace
-        :rtype: class: `list`
+        :return: A `list` that refers a process associated with this Workspace.
+        :rtype: class: `list`.
         """
         return self._jobs
 
     @jobs.setter
-    def jobs(self, jobs: list):
-        """Setter method for jobs attribute
+    def jobs(self, jobs: list) -> None:
+        """Setter method for jobs attribute.
 
-        :param jobs: `list` instance
+        :param jobs: `list` instance.
         """
         self._jobs = jobs
 
-    def append(self, command):
+    def append(self, command) -> None:
+        """Add a new command for jobs attributes.
+
+        :param command: new command to be added.
+        :type command: str.
+        """
         self._jobs.append(command)
 
-    def remove(self, command):
+    def remove(self, command: str) -> None:
+        """Remove a workspace command.
+
+        :param command: command to be removed.
+        :type command: str.
+        """
         self._jobs.remove(command)
 
-    def initialize(self):
+    def initialize(self) -> None:
+        """Calls the thread's start method
+        and invokes the process's run method.
+        """
         for command in self._jobs:
             process = Process(command)
             process.start()
