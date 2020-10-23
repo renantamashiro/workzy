@@ -1,4 +1,4 @@
-from workzy.core.queue_process import QueueProcess
+from workzy.core.process import Process
 
 
 class Workspace:
@@ -6,13 +6,13 @@ class Workspace:
     simultaneuosly. Each job it is a Thread that runs when
     the user call the workspace's name.
 
-    :param name: A name for this workspace that will call
-    by the user
+    :param name: A name for this workspace that will call by the user
     :type name: str
     """
+
     def __init__(self, name):
         self._name = name
-        self._jobs = QueueProcess
+        self._jobs = list()
 
     @property
     def name(self) -> str:
@@ -32,19 +32,29 @@ class Workspace:
         self._name = name
 
     @property
-    def jobs(self) -> QueueProcess:
+    def jobs(self) -> list:
         """Getter method that returns all jobs associated with this Workspace.
 
-        :return: A `QueueProcess` class that refers a process queue associated
-        with this Workspace
-        :rtype: class: `QueueProcess`
+        :return: A `list` that refers a process associated with this Workspace
+        :rtype: class: `list`
         """
         return self._jobs
 
     @jobs.setter
-    def jobs(self, jobs: QueueProcess):
+    def jobs(self, jobs: list):
         """Setter method for jobs attribute
 
-        :param jobs: A class:`QueueProcess` instance
+        :param jobs: `list` instance
         """
         self._jobs = jobs
+
+    def append(self, command):
+        self._jobs.append(command)
+
+    def remove(self, command):
+        self._jobs.remove(command)
+
+    def initialize(self):
+        for command in self._jobs:
+            process = Process(command)
+            process.start()

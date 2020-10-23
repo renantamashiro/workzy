@@ -1,12 +1,5 @@
-import click
-
-from . import __version__
+from workzy.console.cli import console
 
 
-@click.command()
-@click.version_option(version=__version__)
 def main():
-    """
-    Workzy: manage your workspaces easily
-    """
-    click.echo("Hello, manager!")
+    console()
