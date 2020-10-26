@@ -12,9 +12,10 @@ class Process(Thread):
         Thread.__init__(self)
         self._command = command
 
-    def run(self) -> None:
+    def run(self) -> str:
         """Calls a subprocess module that run a command."""
-        subprocess.run(self.command)
+        process_runned = subprocess.run(self.command)
+        return process_runned.args
 
     @property
     def command(self) -> str:

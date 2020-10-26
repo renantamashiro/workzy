@@ -14,6 +14,19 @@ class Workspace:
         self._name = name
         self._jobs = list()
 
+    def __len__(self):
+        """Returns workspace's size"""
+        return len(self._jobs)
+
+    def __getitem__(self, index: int) -> str:
+        """Returns a command listed by jobs attribute.
+
+        :param index: command's position.
+        :rtype: int.
+        :return: Command
+        """
+        return self._jobs[index]
+
     @property
     def name(self) -> str:
         """Getter method that returns the name of the Workspace.
@@ -24,12 +37,15 @@ class Workspace:
         return self._name
 
     @name.setter
-    def name(self, name) -> None:
+    def name(self, name: str) -> None:
         """Setter method for name attribute.
 
         :param name: The name for this Workspace.
         """
-        self._name = name
+        if isinstance(name, str):
+            self._name = name
+        else:
+            raise TypeError("Only `str` type for workspace's name")
 
     @property
     def jobs(self) -> list:
@@ -46,15 +62,21 @@ class Workspace:
 
         :param jobs: `list` instance.
         """
-        self._jobs = jobs
+        if isinstance(jobs, list):
+            self._jobs = jobs
+        else:
+            raise TypeError("Only `list` type for workspace's jobs")
 
-    def append(self, command) -> None:
+    def append(self, command: str) -> None:
         """Add a new command for jobs attributes.
 
         :param command: new command to be added.
         :type command: str.
         """
-        self._jobs.append(command)
+        if isinstance(command, str):
+            self._jobs.append(command)
+        else:
+            raise TypeError("Only `str` type for workspace's jobs")
 
     def remove(self, command: str) -> None:
         """Remove a workspace command.
@@ -67,6 +89,8 @@ class Workspace:
     def initialize(self) -> None:
         """Calls the thread's start method
         and invokes the process's run method.
+
+        -Needs a counter
         """
         for command in self._jobs:
             process = Process(command)
