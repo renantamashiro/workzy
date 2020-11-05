@@ -1,3 +1,5 @@
+from datetime import date
+
 from workzy.core.process import Process
 
 
@@ -13,6 +15,8 @@ class Workspace:
     def __init__(self, name):
         self._name = name
         self._jobs = list()
+        self._minutes = 0
+        self._date = str(date.today().isoformat())
 
     def __len__(self):
         """Returns workspace's size"""
@@ -86,6 +90,23 @@ class Workspace:
         """
         self._jobs.remove(command)
 
+    @property
+    def minutes(self):
+        """Getter method that minutes worked.
+        """
+        return self._minutes
+
+    @minutes.setter
+    def minutes(self, minutes):
+        """Setter method for minutes worked.
+        """
+        self._minutes = minutes
+
+    def date(self):
+        """Getter method that returns a date.
+        """
+        return self._date
+
     def initialize(self) -> None:
         """Calls the thread's start method
         and invokes the process's run method.
@@ -94,4 +115,4 @@ class Workspace:
         """
         for command in self._jobs:
             process = Process(command)
-            process.start()
+            process.run()

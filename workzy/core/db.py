@@ -1,34 +1,47 @@
 import sqlite3
 
-# Persistence and Decorator examples
+
+DATABASE = "test.db"
 
 
-def connect_with_db(func):
+def connect_db(func):
+    """Decorator for create, commit and close a db connection"""
     def inner_function(*args, **kwargs):
-        conn = sqlite3.connect("example.db")  # db name change that
-        return func(conn, *args, **kwargs)
+        db_func = None
+        try:
+            conn = sqlite3.connect(DATABASE)
+            db_func = func(conn, *args, **kwargs)
+        except sqlite3.Error as err:
+            print("An error occurred", err.args[0])
+        else:
+            conn.commit()
+        finally:
+            conn.close()
+        return db_func
 
     return inner_function
 
 
-@connect_with_db
-def insert_db(conn, name, another):
-    conn.execute("INSERT INTO test VALUES (?,?)", (name, another))
-    conn.commit()
+@connect_db
+def create_table(conn):
+    """DB method for create a jobs table"""
+    conn.execute("""
+    CREATE TABLE jobs (date text, workspace text, minutes integer)
+    """)
 
 
-# inserir tratamento de exceção no decorator
+@connect_db
+def insert(conn, workspace):
+    """DB method for insert a new workspace history"""
+    c = conn.cursor()
+    c.execute("""
+    INSERT INTO jobs (date, workspace, minutes) VALUES (?,?,?)
+    """, (workspace.date(), workspace.name, workspace.minutes))
 
 
-def create_table_workspace(workspace):
-    pass
-
-
-def insert():
-    pass
-
-
-# tabela de workspaces (chave e nome do workspace)
-# tabela processos (chave workspace, chave processo e nome do processo)
-# tabela de lançamento de tempo em workspace
-# (chave workspace, data, minutos trabalhados)
+@connect_db
+def select(conn, workspace):
+    """DB method to retrieve a workspace history"""
+    c = conn.cursor()
+    c.execute("SELECT * FROM jobs WHERE workspace=?", (workspace.name,))
+    print(c.fetchone())
