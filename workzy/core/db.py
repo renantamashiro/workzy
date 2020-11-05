@@ -1,12 +1,9 @@
 import sqlite3
 
 
-DATABASE = "test.db"
-
-
 def connect_db(func):
     """Decorator for create, commit and close a db connection"""
-    def inner_function(*args, **kwargs):
+    def inner_function(DATABASE="workzydata.db", *args, **kwargs):
         db_func = None
         try:
             conn = sqlite3.connect(DATABASE)
