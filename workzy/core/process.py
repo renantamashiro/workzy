@@ -12,7 +12,7 @@ class Process:
 
     def run(self) -> str:
         """Calls a subprocess module that run a command."""
-        process_runned = subprocess.run(self.command)
+        process_runned = subprocess.Popen(self.command.split(" "))
         return process_runned.args
 
     @property
