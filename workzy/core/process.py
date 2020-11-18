@@ -7,6 +7,7 @@ class Process:
 
     :param command: command to call a program.
     """
+
     def __init__(self, command):
         self._command = command
 

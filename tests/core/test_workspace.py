@@ -7,6 +7,7 @@ class TestWorkspace(unittest.TestCase):
     """
     Workspace's test suite
     """
+
     def setUp(self):
         self.workspace = Workspace("Dummy")
 

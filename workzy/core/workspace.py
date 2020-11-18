@@ -92,19 +92,16 @@ class Workspace:
 
     @property
     def minutes(self):
-        """Getter method that minutes worked.
-        """
+        """Getter method that minutes worked."""
         return self._minutes
 
     @minutes.setter
     def minutes(self, minutes):
-        """Setter method for minutes worked.
-        """
+        """Setter method for minutes worked."""
         self._minutes = minutes
 
     def date(self):
-        """Getter method that returns a date.
-        """
+        """Getter method that returns a date."""
         return self._date
 
     def initialize(self) -> None:

@@ -32,16 +32,19 @@ def create(workspace_name: str) -> None:
             print(f"\n{workspace.name} is not saved: Empty processes list")
 
 
-def create_file(workspace):
+def create_file(workspace: Workspace) -> str:
     """Create a json file to save workspaces config."""
     jobs_file = ".jobs.json"
 
     if os.path.exists(jobs_file):    
         try:
+            with open(jobs_file, "r") as file:
+                data = json.loads(file.read())
+            data[workspace.name] = workspace.jobs
+            data = json.dumps(data, skipkeys=True, indent=2)
+
             with open(jobs_file, "w") as file:
-                temp = {}
-                temp[workspace.name] = workspace.jobs
-                json.dump(temp, file)
+                file.write(data)
         except (IOError, TypeError) as err:
             print(err)
     else:
@@ -49,22 +52,20 @@ def create_file(workspace):
            file.close() 
         create_file(workspace)
 
-def transform_string(command: str):
-    tag, command = command.split(" ")
-    if tag == "web" and not command.startswith("http://www."):
-        if command.startswith("http://"):
-            command.replace("http://", "http://www.")
-            return f"xdg-open {command}"
-        else:
-            return f"xdg-open http://www.{command}"
+
+def transform_string(command_input: str) -> str:
+    tag, command = command_input.split(" ")
+    tags = ["folder"]
+    if tag not in tags:
+        return command_input
     return f"xdg-open {command}"
 
 
-def basic_usage_help():
+def basic_usage_help() -> None:
     help_message = """
     Open a web page:
-        - just type 'web' follows by the url
-                Example: (web http://www.google.com/)
+        - just type 'browser_name' follows by the url
+                Example: (google-chrome http://www.google.com/)
 
     Open a folder in the default file manager:
         - just type 'folder' follows by the directory

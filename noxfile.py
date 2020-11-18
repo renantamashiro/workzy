@@ -36,8 +36,7 @@ locations = "workzy", "tests", "noxfile.py", "docs/conf.py"
 def lint(session) -> None:
     """Flake8 lint"""
     args = session.posargs or locations
-    install_with_constraints(
-        session,
+    session.install(
         "flake8",
         "flake8-black",
         "flake8-import-order",
@@ -49,7 +48,7 @@ def lint(session) -> None:
 def black(session) -> None:
     """Black code formatter"""
     args = session.posargs or locations
-    install_with_constraints(session, "black")
+    session.install("black")
     session.run("black", *args)
 
 

@@ -3,6 +3,7 @@ import sqlite3
 
 def connect_db(func):
     """Decorator for create, commit and close a db connection"""
+
     def inner_function(DATABASE="workzydata.db", *args, **kwargs):
         db_func = None
         try:
@@ -22,18 +23,23 @@ def connect_db(func):
 @connect_db
 def create_table(conn):
     """DB method for create a jobs table"""
-    conn.execute("""
+    conn.execute(
+        """
     CREATE TABLE jobs (date text, workspace text, minutes integer)
-    """)
+    """
+    )
 
 
 @connect_db
 def insert(conn, workspace):
     """DB method for insert a new workspace history"""
     c = conn.cursor()
-    c.execute("""
+    c.execute(
+        """
     INSERT INTO jobs (date, workspace, minutes) VALUES (?,?,?)
-    """, (workspace.date(), workspace.name, workspace.minutes))
+    """,
+        (workspace.date(), workspace.name, workspace.minutes),
+    )
 
 
 @connect_db
