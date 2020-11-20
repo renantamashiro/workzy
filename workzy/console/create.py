@@ -3,6 +3,7 @@ import os
 import json
 
 from workzy.core.workspace import Workspace
+from workzy.console import io_workspace
 
 
 @click.command()
@@ -34,22 +35,15 @@ def create(workspace_name: str) -> None:
 
 def create_file(workspace: Workspace) -> str:
     """Create a json file to save workspaces config."""
-    jobs_file = ".jobs.json"
-
-    if os.path.exists(jobs_file):    
+    if os.path.exists(io_workspace.jobs):    
         try:
-            with open(jobs_file, "r") as file:
-                data = json.loads(file.read())
+            data = io_workspace.load()
             data[workspace.name] = workspace.jobs
-            data = json.dumps(data, skipkeys=True, indent=2)
-
-            with open(jobs_file, "w") as file:
-                file.write(data)
+            io_workspace.write(data)
         except (IOError, TypeError) as err:
             print(err)
     else:
-        with open(jobs_file, "w+") as file:
-           file.close() 
+        io_workspace.create()
         create_file(workspace)
 
 
