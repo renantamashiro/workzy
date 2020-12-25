@@ -1,6 +1,6 @@
 import click
-import os
 import json
+import os
 
 from workzy.core.workspace import Workspace
 from workzy.console import io_workspace
@@ -35,7 +35,7 @@ def create(workspace_name: str) -> None:
 
 def create_file(workspace: Workspace) -> str:
     """Create a json file to save workspaces config."""
-    if os.path.exists(io_workspace.jobs):    
+    if os.path.exists(io_workspace.jobs):
         try:
             data = io_workspace.load()
             data[workspace.name] = workspace.jobs

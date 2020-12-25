@@ -11,5 +11,5 @@ def show():
     print(f"{'WORKSPACE'.ljust(15)}COMMANDS")
 
     for workspace, commands in data.items():
-        commands = ', '.join(commands)
+        commands = ", ".join(commands)
         print(f"{workspace.ljust(15)}{commands}")
